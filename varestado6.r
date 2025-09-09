@@ -18,27 +18,34 @@
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(biometrics)
 data(eucaplot2)
-?eucaplot2
+##?eucaplot2
 df<-eucaplot2
 head(df)
 #primero calculemos la densidad
 df$fe <- 10000/500
-Nha <- sum(df$fe)
-Nha
-#luego el area basal de cada arbol
-df$g <- (pi/40000)*df$dap^2
+nha <- sum(df$fe)
+nha
+## luego calcular el area basal de cada arbol
+## puede ser mediante
+(pi/40000)*df$dap^2
+##- o bien con la funcion gtree() del paquete biometrics
+df$g<-gtree(df$dap)
+df$g
 #el area basal de cada arbol expandida a la hectarea
 df$garb.ha <- df$g * df$fe
-Gha <- sum(df$garb.ha)
-Gha
+gha <- sum(df$garb.ha)
+gha
 
 
-##Segunda parte del script
-##variables de orden para el diametro
+##? II. Segunda parte del script
+##+ 1. Variables de orden para el diametro
 dmed<- mean(df$dap)
 dmed
 
-dg<- sqrt((Gha/Nha)*(40000/pi))
+##+ diametro del arbol de area basal media
+sqrt((gha/nha)*(40000/pi))
+##- o bien use la funcion del paquete biometrics dg.fx(), como sigue
+dg<-dg.fx(n=nha,g=gha)
 dg
 
 ##diametro dominante

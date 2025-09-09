@@ -49,17 +49,20 @@ head(df)
 nha <- sum(df$fe)
 nha #en arb/ha
 
-#1b. Calculo del area basal (o "G" segun la iufro)
-#i. area basal de cada arbol
-df$g <- (pi/40000)*df$dap^2
+##+ 1b. Calculo del area basal (o "G" segun la iufro)
+##- i. area basal de cada arbol
+## puede ser mediante
+(pi/40000)*df$dap^2
+##- o bien con la funcion gtree() del paquete biometrics
+df$g<-gtree(df$dap)
 head(df)
 summary(df$g)
 
-#ii. area basal de cada arbol expandida a la hectarea
+##- ii. area basal de cada arbol expandida a la hectarea
 df$garb.ha <- df$g * df$fe
 head(df)
 
-#iii. el area basal a nivel de "rodal" (G)
+##- iii. el area basal a nivel de "rodal" (G)
 gha <- sum(df$garb.ha)
 gha
 

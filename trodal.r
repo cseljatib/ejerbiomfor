@@ -25,7 +25,8 @@ df <- eucaplot2
 df
 dim(df)
 
-
+library(datana)
+descstat(df[,c("dap","atot")])
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ### II. Calculo de la densidad (o "N" segun la IUFRO)
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -36,21 +37,23 @@ head(df)
 nha <- sum(df$fe)
 nha #en arb/ha
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-### III. Construccion tabla de rodal
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#i. sobre amplitud de clases de diametros a emplear
-range(df$dap)
-diff(range(df$dap))/2
-w.amp <- 2
-#ii. asignacion de clase diametrica a cada arbol
-df$clase.d<-(as.integer((df$dap+((w.amp/2)-0.1))/w.amp))*w.amp
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##- III. Construccion tabla de rodal
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##+ (i). sobre amplitud de clases de diametros a emplear
+rango.d<-range(df$dap);rango.d
+min.d<-range(df$dap)[1];max.d<-range(df$dap)[2];
 
+diff(rango.d)/2
+
+w.amp <- 2
+##+ (ii) Asignacion de clase diametrica a cada arbol
+## empleando funcion assigncl() de paquete datana
+df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
+df
 table(df$clase.d)
 unique(df$clase.d)
 sort(unique(df$clase.d))
-df
-
 
 ##iii. Creando la tabla rodal
 trodal<-tapply(df$fe, df$clase.d, sum)
