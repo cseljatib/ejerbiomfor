@@ -145,9 +145,9 @@ h.ajumod2 <- b0.hat2 + b1.hat2 * (1/d.fake)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! IVa. Grafico de comportamiento
-##  Modelos 1 y 2
+##-  Modelos 1 y 2
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##grafico de comportamiento para ambos modelos
+##+ Grafico de comportamiento para ambos modelos
 plot(atot~dap, data=df,xlab="Diametro (cm)",
      ylab="Altura (m)", las=1)
 lines(d.fake, h.ajumod1, col="red", lwd=3, lty=1)

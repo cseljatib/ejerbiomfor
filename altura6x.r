@@ -1,6 +1,6 @@
-##! Script: "altura3.r"                                            /
+##! Script: "altura6.r"                                            /
 ##- Sobre:  Ajuste de tres modelos lineales simple (RLS), con     /
-##-   transformaciones en la variable predictora.                 /
+##-   transformaciones en la variable respuesta.                 /
 ##+ Detalles:  Emplea estimador de minimos cuadrados.           /
 ##* Ejemplo: Datos de altura-diametro (data=idahohd2).         /
 ##? Mas detalles: Entre otras cosas, el este ejercicio se:    / 
@@ -44,17 +44,24 @@ plot(atot~dap, data=df)
 xyhist(x=df$dap,y=df$atot)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! III. Ajuste del modelo 1
-##  h_i=beta_0+beta_1(d_i)+varepsilon_i
+##! III. Ajuste de modelos
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-mod1<- lm(atot~dap, data=df)
+##  ln(h_i)=beta_0+beta_1ln(d_i)+varepsilon_i
+mod1<- lm(I(log(atot))~I(log(dap)), data=df)
 summary(mod1)
-summary(mod1)
-#guardando los coeficientes en un objeto
-coef(mod1)
-coef(mod1)[1]
-b0.hat<-coef(mod1)[1]
-b1.hat<-coef(mod1)[2]
+
+##  ln(h_i)=beta_0+beta_1(1/d_i)+varepsilon_i
+mod2<- lm(I(log(atot))~I(1/dap), data=df)
+summary(mod2)
+
+##  (1/h_i)=beta_0+beta_1(1/d_i)+varepsilon_i
+mod3<- lm(I(1/atot)~I(1/dap), data=df)
+summary(mod2)
+
+##  (1/h_i)=beta_0+beta_1(1/d_i)+varepsilon_i
+mod4<- lm(I(dap/(atot^(2/5)))~dap, data=df)
+summary(mod4)
+
 
 #grafico de comportamiento-modelo 1
 d.fake <- 10:110
@@ -62,40 +69,6 @@ length(d.fake)
 h.ajumod1 <- b0.hat + b1.hat * d.fake
 plot(atot~dap, data=df)
 lines(d.fake, h.ajumod1, col="red",lwd=2)
-
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! IV. Ajuste del modelo 2
-##  h_i=beta_0+beta_1(1/d_i)+varepsilon_i
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##creando la variable X necesaria para el modelo 2
-df$inv.d <- 1/df$dap
-plot(atot~inv.d, data=df)
-mod2<- lm(atot~inv.d, data=df)
-summary(mod2)
-b0.hat2<-coef(mod2)[1]
-b1.hat2<-coef(mod2)[2]
-b0.hat2
-b1.hat2
-h.ajumod2 <- b0.hat2 + b1.hat2 * (1/d.fake)
-
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! V. Ajuste del modelo 3
-## ln(h_i)=beta_0+beta_1(e^(-0.03d_i))+varepsilon_i
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- Creando la variable Y necesaria para el modelo 3
-df$ln.h<-log(df$atot)
-##creando la variable X necesaria para el modelo 3
-df$exp.d<-exp(-0.03*df$dap)
-plot(ln.h~exp.d, data=df)
-
-descstat(df[,c("dap","exp.d","atot","ln.h")])
-mod3<- lm(ln.h~exp.d, data=df)
-summary(mod3)
-b0.hat3<-coef(mod3)[1]
-b1.hat3<-coef(mod3)[2]
-b0.hat3
-b1.hat3
-h.ajumod3 <- exp(b0.hat3 + b1.hat3 * exp(-0.03*d.fake))
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! VI. Grafico de comportamiento para los tres modelos ajustados
@@ -118,11 +91,9 @@ legend("bottomright",c("Mod1","Mod2","Mod3"), title="Modelo",
 
 ##- ===================================
 ##? Tarea sugerida:
-##+ 1. Escriba, en una hoja a mano, cada modelo estadistico
-## poblacional que se ha ajustado en este script.
-##+ 2. Prepare un cuadro en una hoja a mano, y escriba los
+## 1. Prepare un cuadro en una hoja a mano, y escriba los
 ## parametros estimados para cada modelo (cada fila un modelo).
-##+ 3. Compare los modelos, basado en los estadisticos calculados.
+## 2. Compare los modelos, basado en los estadisticos calculados.
 ##- ===================================
 
 

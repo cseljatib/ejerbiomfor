@@ -1,31 +1,32 @@
-##! Script: "altura4.r"                                           /
-##- Sobre:  Comparacion de dos modelos de altura-diametro        /
+##! Script: "altura2.r"                                            /
+##- Sobre:  Ajuste de dos modelos lineales, con variable          /
+## respuesta transformada                                        /
 ##+ Detalles:  Emplea estimador de minimos cuadrados.           /
-##* Ejemplo: Datos de altura-diametro (data= biomass2).        /
-##? Mas detalles: Entre otras cosas, en este ejercicio se:    /
-##   + calcula valores predichos, y errores.                 /
-##   + calcula los estadisticos de capacidades predictivas: /
-##  RMSD, DIFA y DA.                                       /
-##! ------------------------------------------------------/ 
-##                                                       /
-##> Profesor: Christian Salas Eljatib                   /
-##? E-mail: christian.salas AT uchile DOT cl           /
-## Web: https://eljatib.com                           /
-##!==================================================/
+##* Ejemplo: Datos de altura-diametro (data=idahohd2).         /
+##? Mas detalles: Entre otras cosas, en este ejercicio se:    / 
+## + calculan valores ajustados y residuales.                /
+## + representa sigma.hat.e en porcentaje.                  /
+## + crea grafico con valores esperados vs diametro para   /
+## los dos modelos.                                       /
+##! -----------------------------------------------------/ 
+##                                                      /
+##> Profesor: Christian Salas Eljatib                  /
+##? E-mail: christian.salas AT uchile DOT cl          /
+## Web: https://eljatib.com                          /
+##!=================================================/
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! I. Datos para ejemplo
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-library(biometrics)
-data(biomass2)
-df <- biomass2
-#?biomass2 #ejecutelo en la consola
+library(datana)
+data(idahohd2)
+df <- idahohd2
+#?idahohd2 #ejecutelo en la consola
 head(df)
 dim(df)
 
 ##-Estadistica descriptiva
-library(datana)
 descstat(df[,c("dap","atot")])
 
 
@@ -42,112 +43,119 @@ plot(atot~dap, data=df, xlab="Diametro (cm)",
 ylab="Altura (m)")
 plot(atot~dap, data=df)
 
+#compare grafico anterior, con los siguientes
+plot(atot~dap, data=df, las=1)
+plot(atot~dap, data=df, las=1, col="blue")
+plot(atot~dap, data=df, xlab="Diametro (cm)",
+     ylab="Altura (m)", las=1, col="blue")
 
+plot(atot~dap, data=df)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! III. Ajuste del modelo 1
-##  h=b0+b1*d
+## ln(h_i)=beta_0+beta_1 ln(d_i)+varepsilon_i
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-mod1<- lm(atot~dap, data=df)
+df$ln.h <- log(df$atot)
+df$ln.d <- log(df$dap)
+mod1<- lm(ln.h~ln.d, data=df)
 summary(mod1)
-#guardando los coeficientes en un objeto
-coef(mod1)
-coef(mod1)[1]
+##-RMSE
+rmse.m1<-summary(mod1)$sigma
+rmse.m1
+
+#almacenar la varianza de los residuales del modelo
+summary(mod1)$sigma
+var.hat.e.m1 <-summary(mod1)$sigma^2
+var.hat.e.m1
+
+#valor ajustado segun un diametro
 b0.hat<-coef(mod1)[1]
 b1.hat<-coef(mod1)[2]
+b0.hat
+b1.hat
+b0.hat + b1.hat * log(50)
 
-#- Valor ajustado
-#* antes se obtuvo este valor mediante
-#b0.hat+b1.hat*df$dap
-# el cual es "el camino largo", pero tambien se puede 
-# lograr mediante la funcion fitted()
-df$aju <-    fitted(mod1)
+exp(b0.hat + b1.hat * log(50))
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! IIIa. Grafico de comportamiento
+##  Modelo 1
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#creando un vector de diametros 
+d.fake <- 10:15
+d.fake
+b0.hat + b1.hat * log(d.fake)
+#creando una columna en la dataframe con los valores
+# ajustados dependiendo de los respectivos valores
+# de diametro para el modelo 1 
+df$aju <- exp(b0.hat+b1.hat*log(df$dap))
 head(df)
-#- Valor residual 
+#valor error prediccion
 df$e.aju <- df$atot - df$aju 
 head(df)
 
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! IV. Calculo de estadisticos de prediccion
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-n <- nrow(df)
-mean.h <- mean(df$atot)
-mean.h
-
-##los siguientes es usando la terminologia ocupada en el paper
-# de Salas et al 2010 (Remote Sensing of Environment)
-
-#rmsd, raiz cuadrada media de las diferencias (RMSD)
-rmsd <- sqrt(sum(df$e.aju^2)/n)
-rmsd
-
-#ad, o diferencia agregada (DA)
-ad <-  mean(df$e.aju)
-ad
-
-##aad, o dif. media absoluta (DIFA)
-aad <-  mean(abs(df$e.aju))
-aad
-
-#- Calculo de estad. de prediccion en %
-100*ad/mean.h
-100*rmsd/mean.h
-100*aad/mean.h
+## Otra forma de obtener lo mismo anterior
+df$h.aju1 <- exp(fitted(mod1))
 
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! V. Uso de la funcion valesta() de datana
-#- lo mismo que se explico antes, esta implementado en
-# la funcion mencionada, como sigue
-valesta(y.obs=df$atot,y.pred=df$aju)
+##- el grafico
+50:55 #secuencia de valores
+exp(b0.hat + b1.hat * log(50:55))
+range(df$dap)
+d.fake <- 10:110
+length(d.fake)
+h.ajumod1 <- exp(b0.hat + b1.hat * log(d.fake))
+plot(atot~dap, data=df)
+lines(d.fake, h.ajumod1, col="red")
+
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! VI. Ajuste de otro modelo
-## ln(h_i)=beta.0+beta.1*e^(-0.03d_i)+varepsilon_i
+##! IV. Ajuste del modelo 2
+## (1/h_i)=beta_0+beta_1(1/d_i)+varepsilon_i
+## modelo del inverso del diametro
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- Creando las variables Y e X necesarias para el modelo 2
-df$ln.h<-log(df$atot)
-df$exp.d<-exp(-0.03*df$dap)
-plot(ln.h~exp.d, data=df)
+##creando la variable X necesaria
+df$inv.d <- 1/df$dap
+df$inv.h <- 1/df$atot
+head(df,2)
+descstat(df[,c("dap","atot","inv.d","inv.h")])
 
-descstat(df[,c("dap","exp.d","atot","ln.h")])
-mod2<- lm(ln.h~exp.d, data=df)
-summary(mod2)
+##compare
+plot(atot~dap, data=df)
+#con este otro grafico
+plot(inv.h~inv.d, data=df)
+
+#ajustando el modelo 2
+mod2<- lm(inv.h~inv.d, data=df)
 b0.hat2<-coef(mod2)[1]
 b1.hat2<-coef(mod2)[2]
 b0.hat2
 b1.hat2
+#valor ajustado del modelo 2
+h.ajumod2 <-1/(b0.hat2 + b1.hat2 * (1/d.fake))
 
-#- Valor ajustado
-#* calculado mediante la funcion fitted(), pero note
-# que hay un cambio...... a que se debe?
-df$aju2<-exp(fitted(mod2))
-head(df)
-
-#- Valor residual 
-df$e.aju <- df$atot - df$aju 
-head(df)
-
-valesta(y.obs=df$atot,y.pred=df$aju2)
-
-#- Comparacion entre ambos modelos
-#? Modelo 1
-valesta(y.obs=df$atot,y.pred=df$aju)
-#? Modelo 2
-valesta(y.obs=df$atot,y.pred=df$aju2)
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! IVa. Grafico de comportamiento
+##-  Modelos 1 y 2
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##+ Grafico de comportamiento para ambos modelos
+plot(atot~dap, data=df,xlab="Diametro (cm)",
+     ylab="Altura (m)", las=1)
+lines(d.fake, h.ajumod1, col="red", lwd=3, lty=1)
+lines(d.fake, h.ajumod2, col="blue", lwd=3, lty=2)
+legend("bottomright",c("ln(h)=f(d)","(1/h)=f(1/d)"), title="Modelo",
+       col = c("red","blue"), lty=c(1,2), lwd=c(2,2))
 
 
-##- ===================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! Tarea sugerida:
-## 1. Realice un grafico entre el error de prediccion y el valor
-## observado
-## 2. Realice un grafico entre el error de prediccion y el valor
-## ajustado
-## 3. Realice un grafico entre el error de prediccion y el diametro
-## 4. En base a los calculos realizados, ¿Cual modelo seleccionaria?
-## y ¿Por que?.
-##- ===================================
+##- 1. escriba (en una hoja) los parametros estimados de cada modelo.
+##- 2. revise la inferencia estadistica respecto a los coeficientes
+## estimados.
+##- 3. compare ambos modelos, basado en el grafico de comportamiento
+## y los puntos anteriores.
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 #>╔═════════════════╗
