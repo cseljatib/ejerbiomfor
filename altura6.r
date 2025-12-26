@@ -1,4 +1,4 @@
-##! Script: "altura5.r"                                            /
+##! Script: "altura6.r"                                            /
 ##- Sobre:  Otra forma de ajustar modelos lineales con variables  /
 ## transformadas                                                 /
 ##+ Detalles:  Emplea estimador de minimos cuadrados.           /

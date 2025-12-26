@@ -1,4 +1,4 @@
-##! Script: "altura4.r"                                           /
+##! Script: "altura5.r"                                           /
 ##- Sobre:  Comparacion de dos modelos de altura-diametro        /
 ##+ Detalles:  Emplea estimador de minimos cuadrados.           /
 ##* Ejemplo: Datos de altura-diametro (data= biomass2).        /

@@ -24,12 +24,11 @@
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(biometrics)
 
-#?eucaplotr
+#?eucaplotr2
 #~~~
 #Datos a emplear
-df<-eucaplotr
+df<-eucaplotr2
 head(df)
-names(df)[c(1,5)] <- c("dap","atot")
 
 library(datana)
 #note que ahora

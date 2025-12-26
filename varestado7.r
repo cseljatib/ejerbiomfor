@@ -95,14 +95,14 @@ c(hmed,hdom,hg.central)
 #ii. revisar funcion domvar() con el algoritmo necesario
 #?biometrics::domvar
 #iii. calculo de altura dominante, con estimador mas apropiado
-hdom.alt<-domvar(data=df,var.int="atot",var.sort="dap",plot.area=500)
+hdom.alt<-domvar(data=df,varint="atot",varsort="dap",plot.area=500)
 hdom.alt
 
 ##- Compare este valor con el obtenido en hdom
 c(hdom, hdom.alt)
 
 #lo mismo se puede hacer para la estimacion del diam.dominante
-ddom.alt<-domvar(data=df,var.int="dap",var.sort="dap",plot.area=500)
+ddom.alt<-domvar(data=df,varint="dap",varsort="dap",plot.area=500)
 ddom.alt
 
 #╔═════════════════╗

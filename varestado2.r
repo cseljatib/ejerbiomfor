@@ -17,7 +17,7 @@
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##+## I. Datos a emplear
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-library(datana)
+library(biometrics)
 data(eucaplot2)
 head(eucaplot2)
 ?eucaplot2
