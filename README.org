@@ -28,6 +28,10 @@ Cita del paquete
 citation("biometrics")
 #+end_src
 
+** Versiones más actualizadas de los paquetes 
+Es importante destacar que las versiones más recientes de los paquetes antes mencionados se encuentran en el siguiente 
+[[https://github.com/cseljatib/labPackages][web]], para vuestra descarga. Esto se debe a que la frecuencia con la cual se puede actualizar un paquete en [[https://r-project.or][el sitio web de R]] es generalmente menor a la cual nosotros realizamos cambios.
+
 ** Sugerencias/errores
 En caso de encontrar errores, tenga sugerencias, o dudas, por favor escribir a [[mailto:christian.salas@uchile.cl][este email]].
 
