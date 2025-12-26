@@ -20,6 +20,7 @@
 ##! I. Datos para ejemplo
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
+library(biometrics)
 data(idahohd2)
 df <- idahohd2
 #?idahohd2 #ejecutelo en la consola
@@ -57,6 +58,7 @@ plot(atot~dap, data=df)
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 df$ln.h <- log(df$atot)
 df$ln.d <- log(df$dap)
+head(df)
 mod1<- lm(ln.h~ln.d, data=df)
 summary(mod1)
 ##-RMSE
@@ -98,6 +100,8 @@ head(df)
 ## Otra forma de obtener lo mismo anterior
 df$h.aju1 <- exp(fitted(mod1))
 
+##estadisticos de validacion
+valesta(y.obs = df$atot, y.pred = df$h.aju1, decnum = 3)
 
 ##- el grafico
 50:55 #secuencia de valores
@@ -134,6 +138,13 @@ b0.hat2
 b1.hat2
 #valor ajustado del modelo 2
 h.ajumod2 <-1/(b0.hat2 + b1.hat2 * (1/d.fake))
+
+df$h.aju2 <- 1/(fitted(mod2))
+head(df)
+
+###estadistico de validacion
+valesta(y.obs = df$atot, y.pred = df$h.aju2, decnum = 3)
+
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! IVa. Grafico de comportamiento
