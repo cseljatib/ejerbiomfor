@@ -1,4 +1,4 @@
-##! Script: "altura2.r"                                            /
+##! Script: "altura4.r"                                            /
 ##- Sobre:  Ajuste de dos modelos lineales, con variable          /
 ## respuesta transformada                                        /
 ##+ Detalles:  Emplea estimador de minimos cuadrados.           /
@@ -21,7 +21,6 @@
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
 library(biometrics)
-data(idahohd2)
 df <- idahohd2
 #?idahohd2 #ejecutelo en la consola
 head(df)
@@ -84,9 +83,9 @@ exp(b0.hat + b1.hat * log(50))
 ##  Modelo 1
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #creando un vector de diametros 
-d.fake <- 10:15
-d.fake
-b0.hat + b1.hat * log(d.fake)
+d.play <- 30:35
+d.play
+b0.hat + b1.hat * log(d.play)
 #creando una columna en la dataframe con los valores
 # ajustados dependiendo de los respectivos valores
 # de diametro para el modelo 1 
@@ -100,18 +99,19 @@ head(df)
 ## Otra forma de obtener lo mismo anterior
 df$h.aju1 <- exp(fitted(mod1))
 
-##estadisticos de validacion
+##estadisticos de prediccion, que se deben calcular en base a
+## la variable respuesta-biometrica, i.e., la altura
 valesta(y.obs = df$atot, y.pred = df$h.aju1, decnum = 3)
 
-##- el grafico
+##- el grafico de comportamiento
 50:55 #secuencia de valores
 exp(b0.hat + b1.hat * log(50:55))
 range(df$dap)
-d.fake <- 10:110
-length(d.fake)
-h.ajumod1 <- exp(b0.hat + b1.hat * log(d.fake))
+d.test <- 10:110
+length(d.test)
+h.mod1 <- exp(b0.hat + b1.hat * log(d.test))
 plot(atot~dap, data=df)
-lines(d.fake, h.ajumod1, col="red")
+lines(d.test, h.mod1, col="red")
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -137,8 +137,6 @@ b1.hat2<-coef(mod2)[2]
 b0.hat2
 b1.hat2
 #valor ajustado del modelo 2
-h.ajumod2 <-1/(b0.hat2 + b1.hat2 * (1/d.fake))
-
 df$h.aju2 <- 1/(fitted(mod2))
 head(df)
 
@@ -151,22 +149,24 @@ valesta(y.obs = df$atot, y.pred = df$h.aju2, decnum = 3)
 ##-  Modelos 1 y 2
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##+ Grafico de comportamiento para ambos modelos
+h.mod2 <-1/(b0.hat2 + b1.hat2 * (1/d.test))
+
 plot(atot~dap, data=df,xlab="Diametro (cm)",
      ylab="Altura (m)", las=1)
-lines(d.fake, h.ajumod1, col="red", lwd=3, lty=1)
-lines(d.fake, h.ajumod2, col="blue", lwd=3, lty=2)
+lines(d.test, h.mod1, col="red", lwd=3, lty=1)
+lines(d.test, h.mod2, col="blue", lwd=3, lty=2)
 legend("bottomright",c("ln(h)=f(d)","(1/h)=f(1/d)"), title="Modelo",
        col = c("red","blue"), lty=c(1,2), lwd=c(2,2))
 
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! Tarea sugerida:
-##- 1. escriba (en una hoja) los parametros estimados de cada modelo.
-##- 2. revise la inferencia estadistica respecto a los coeficientes
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! Para seguir ejercitando/estudiando:
+##- 1. Escriba (en una hoja) los parametros estimados de cada modelo.
+##- 2. Revise la inferencia estadistica respecto a los coeficientes
 ## estimados.
-##- 3. compare ambos modelos, basado en el grafico de comportamiento
+##- 3. Compare ambos modelos, basado en el grafico de comportamiento
 ## y los puntos anteriores.
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 #>╔═════════════════╗

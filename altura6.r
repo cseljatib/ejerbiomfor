@@ -1,11 +1,11 @@
 ##! Script: "altura6.r"                                            /
-##- Sobre:  Otra forma de ajustar modelos lineales con variables  /
-## transformadas                                                 /
-##+ Detalles:  Emplea estimador de minimos cuadrados.           /
-##* Ejemplo: Datos de altura-diametro (data= biomass2).        /
-##? Mas detalles: Compara la forma "larga" y una nueva, que   /
-## es mas corta, para ajustar modelos con variables          /
-## trasformadas, ademas                                     /
+##- Sobre:  Una sintaxis alternativa para ajustar modelos con     /
+##  variables transformadas.                                     /
+##+ Detalles:  Muestra la forma revisada hasta ahora ("larga") y/
+##   una nueva sintaxis alternativa ("corta"), cuando las      /
+##   variables estadisticas no se encuentran en los datos     /
+##* Ejemplo: Datos de altura-diametro (data= biomass2).      /
+##? Mas detalles: Ademas se                                 /
 ##   + calcula valores predichos.                          /
 ##   + calcula estadisticos RMSD, DIFA y DA.              /
 ##! -----------------------------------------------------/ 

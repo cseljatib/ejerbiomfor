@@ -77,37 +77,29 @@ b0.hat
 b1.hat
 b0.hat + b1.hat * 50
 
+
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! IIIa. Grafico de comportamiento
+##! IIIa. Grafico de comportamiento valor esperado altura
 ##  Modelo 1
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #creando un vector de diametros 
-d.fake <- 10:15
-d.fake
-b0.hat + b1.hat * d.fake
+d.play <- 30:35; d.play
+#valor ajustado
+b0.hat + b1.hat * d.play
 #creando una columna en la dataframe con los valores
 # ajustados dependiendo de los respectivos valores
 # de diametro para el modelo 1 
-df$aju <- b0.hat+b1.hat*df$dap 
-head(df)
-#valor residual
-df$e.aju <- df$atot - df$aju 
-head(df)
-
-
-## Otra forma de obtener lo mismo anterior
 df$h.aju1 <- fitted(mod1)
+# y lo mismo para los residuales
 df$e.aju1 <- residuals(mod1)
 
 ##- el grafico
-50:55 #secuencia de valores
-b0.hat + b1.hat * (50:55)
 range(df$dap)
-d.fake <- 10:110
-length(d.fake)
-h.ajumod1 <- b0.hat + b1.hat * d.fake
+d.test <- 10:110
+length(d.test)
+h.mod1 <- b0.hat + b1.hat * d.test
 plot(atot~dap, data=df)
-lines(d.fake, h.ajumod1, col="red")
+lines(d.test, h.mod1, col="red")
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -140,8 +132,20 @@ b0.hat2<-coef(mod2)[1]
 b1.hat2<-coef(mod2)[2]
 b0.hat2
 b1.hat2
-#valor ajustado del modelo 2
-h.ajumod2 <- b0.hat2 + b1.hat2 * (1/d.fake)
+
+df$h.aju2 <- fitted(mod2)
+# y lo mismo para los residuales
+df$e.aju2 <- residuals(mod2)
+
+
+##- ========= 
+##? Como obtener el valor ajustado para el modelo 2
+# Para la variable respuesta-biometrica de interes, i.e., altura 
+#*1) para un par de valores de la variable predictora-biometrica
+d.play
+b0.hat + b1.hat * (1/d.play)
+#*2) para todos los valores a evaluar de la variable predictora-biometrica
+h.mod2 <- b0.hat2 + b1.hat2 * (1/d.test)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! IVa. Grafico de comportamiento
@@ -150,8 +154,8 @@ h.ajumod2 <- b0.hat2 + b1.hat2 * (1/d.fake)
 ##+ Grafico de comportamiento para ambos modelos
 plot(atot~dap, data=df,xlab="Diametro (cm)",
      ylab="Altura (m)", las=1)
-lines(d.fake, h.ajumod1, col="red", lwd=3, lty=1)
-lines(d.fake, h.ajumod2, col="blue", lwd=3, lty=2)
+lines(d.test, h.mod1, col="red", lwd=3, lty=1)
+lines(d.test, h.mod2, col="blue", lwd=3, lty=2)
 legend("bottomright",c("Mod1","Mod2"), title="Modelo",
        col = c("red","blue"), lty=c(1,2), lwd=c(2,2))
 
@@ -171,14 +175,14 @@ legend("bottomright",c("Mod1","Mod2"), title="Modelo",
 # legend("bottomright",c("Mod1","Mod2"), title="Modelo",col = c("red","blue"), lty=c(1,2), lwd=c(2,2))
 # dev.off()
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! Tarea sugerida:
-##- 1. escriba (en una hoja) los parametros estimados de cada modelo.
-##- 2. revise la inferencia estadistica respecto a los coeficientes
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! Para seguir ejercitando/estudiando:
+##- 1. Escriba (en una hoja) los parametros estimados de cada modelo.
+##- 2. Revise la inferencia estadistica respecto a los coeficientes
 ## estimados.
-##- 3. compare ambos modelos, basado en el grafico de comportamiento
+##- 3. Compare ambos modelos, basado en el grafico de comportamiento
 ## y los puntos anteriores.
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 #>╔═════════════════╗

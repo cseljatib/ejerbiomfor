@@ -97,6 +97,12 @@ b0.hat
 b1.hat
 b0.hat + b1.hat * 50
 
+##- ========= 
+##? Como obtener el valor ajustado para el modelo 1
+# Para la variable respuesta-biometrica de interes, i.e., altura 
+#*1) para un par de valores de la variable predictora-biometrica
+d.play<-30:35;d.play
+b0.hat + b1.hat * (d.play)
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -108,24 +114,20 @@ head(df)
 df$e.aju <- df$atot - df$aju 
 head(df)
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! V. Grafico de comportamiento
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- Generando vector ficticio con la variable predictora
-d.fake <- 10:15
-d.fake
-b0.hat + b1.hat * d.fake
-##- Creando una columna en la dataframe con los valores
-# ajustados dependiendo de los respectivos valores
-# de diametro para el modelo 1
-
-
 ##+ ---------------
 ##+ Otra forma de obtener lo mismo anterior
 df$h.aju1 <- fitted(mod1)
 df$e.aju1 <- residuals(mod1)
 
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! V. Grafico de comportamiento
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+##? ======================================
 ##- Grafico de comportamiento del modelo
+##+ es decir, valor esperado para la variable respuesta
 ##i. alternativa con funcion pre-programada en R
 plot(atot~dap, data=df, xlab="Diametro (cm)", ylab="Altura (m)")
 abline(mod1, col="red")
@@ -137,15 +139,22 @@ abline(mod1, col="red",lwd=2)
 
 
 ##? ii. alternativa mas larga, pero quizas mas transparente
-50:55 #una secuencia
-b0.hat + b1.hat * (50:55)
-range(df$d)
-d.fake <- 10:110
-length(d.fake)
-h.ajumod1 <- b0.hat + b1.hat * d.fake
-plot(atot~dap, data=df)
-lines(d.fake, h.ajumod1, col="red")
+##- Generando vector ficticio con la variable predictora
+#*2) para todos los valores a evaluar de la variable predictora-biometrica
+1:5 #una secuencia
+d.test <- 10:110
+h.mod1 <- b0.hat + b1.hat * (d.test)
 
+plot(atot~dap, data=df)
+lines(d.test, h.mod1, col="red")
+
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! Para seguir ejercitando/estudiando:
+##- 1. Escriba (en una hoja) los parametros estimados del modelo ajustado.
+##- 2. Revise la inferencia estadistica respecto a los coeficientes
+## estimados.
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 #>╔═════════════════╗
 #>║ Fin del script! ║
