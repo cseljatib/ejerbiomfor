@@ -97,10 +97,10 @@ aad
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! V. Uso de la funcion valesta() de datana
+##! V. Uso de la funcion predstat() de datana
 #- lo mismo que se explico antes, esta implementado en
 # la funcion mencionada, como sigue
-valesta(y.obs=df$atot,y.pred=df$aju)
+predstat(obs=df$atot,pre=df$aju)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! VI. Ajuste de otro modelo
@@ -129,13 +129,13 @@ head(df)
 df$e.aju <- df$atot - df$aju 
 head(df)
 
-valesta(y.obs=df$atot,y.pred=df$aju2)
+predstat(obs=df$atot,pre=df$aju2)
 
 #- Comparacion entre ambos modelos
 #? Modelo 1
-valesta(y.obs=df$atot,y.pred=df$aju)
+predstat(obs=df$atot,pre=df$aju)
 #? Modelo 2
-valesta(y.obs=df$atot,y.pred=df$aju2)
+predstat(obs=df$atot,pre=df$aju2)
 
 
 ##- ===================================

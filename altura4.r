@@ -20,7 +20,6 @@
 ##! I. Datos para ejemplo
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
-library(biometrics)
 df <- idahohd2
 #?idahohd2 #ejecutelo en la consola
 head(df)
@@ -101,7 +100,7 @@ df$h.aju1 <- exp(fitted(mod1))
 
 ##estadisticos de prediccion, que se deben calcular en base a
 ## la variable respuesta-biometrica, i.e., la altura
-valesta(y.obs = df$atot, y.pred = df$h.aju1, decnum = 3)
+predstat(obs = df$atot, pre = df$h.aju1, decnum = 3)
 
 ##- el grafico de comportamiento
 50:55 #secuencia de valores
@@ -141,7 +140,7 @@ df$h.aju2 <- 1/(fitted(mod2))
 head(df)
 
 ###estadistico de validacion
-valesta(y.obs = df$atot, y.pred = df$h.aju2, decnum = 3)
+predstat(obs = df$atot, pre = df$h.aju2, decnum = 3)
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
