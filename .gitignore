@@ -1,3 +1,5 @@
-/tobechecked/
-README.org
-.gitignore
+/*
+!/tobechecked/
+!/LICENSE
+!/README.org
+!/.gitignore
