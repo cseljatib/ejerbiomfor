@@ -17,7 +17,6 @@
 ##+## I. Datos para ejemplo
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
-data(idahohd2)
 df <- idahohd2
 #?idahohd2 #ejecutelo en la consola
 head(df)
@@ -51,7 +50,9 @@ plot(atot ~ dap, data=df)
 ##+ (1) Ajuste del modelo de Michaelis-Menten
 ##- ahora ocupando una expresion ya definida en el paquete biometrics
 library(biometrics)
-mm.nls<-nls(atot~mmenten.fx(x=dap,paramod = c(b0,b1)),
+## revisar la expresion matematica con
+##> ?mmenten.fx
+mm.nls<-nls(atot~mmenten.fx(x=dap,a=b0,b=b1),
   data = df,start = list(b0 = 170, b1=0.5),trace=T)
     
 
@@ -75,7 +76,9 @@ df$h.mm<-fitted(mm.nls)
 
 ##+ (2) Ajuste del modelo de Stage
 ##- ahora ocupando una expresion ya definida en el paquete biometrics
-sta.nls<-nls(atot~stage.fx(x=dap,paramod = c(b0,b1,b2)),
+## revisar la expresion matematica con
+##> ?stage.fx
+sta.nls<-nls(atot~stage.fx(x=dap,a=b0,b=b1,c=b2),
             data = df,start = list(b0 = 20, b1=8,b2=.8),trace=T)
 
 summary(sta.nls)
@@ -94,7 +97,9 @@ df$h.sta<-fitted(sta.nls)
 
 ##+ (3) Ajuste del modelo de Poder
 ##- ahora ocupando una expresion ya definida en el paquete biometrics
-pod.nls<-nls(atot~power.fx(x=dap,paramod = c(b0,b1)),
+## revisar la expresion matematica con
+##> ?power.fx
+pod.nls<-nls(atot~power.fx(x=dap,a=b0,b=b1),
             data = df,start = list(b0 = 10, b1=.5),trace=T)
 
 summary(pod.nls)
@@ -137,10 +142,12 @@ legend("bottomright",c("Michaelis-Menten","Stage","Poder"), title="Modelo",
 ##+ Capacidades predictivas
 ##- Calcule el RMSD, DIFA, y DA de los tres modelos.
 valesta(y.obs = df$atot, y.pred = df$h.mm)
-
 valesta(y.obs = df$atot, y.pred = df$h.sta)
-
 valesta(y.obs = df$atot, y.pred = df$h.pod)
+
+##- En caso que necesite tambien los estadisticos en
+##- terminos porcentuales, tan solo debe agregar a la
+##- funcion valesta(), la opcion want.percent=TRUE 
 
 ##+ ===============================
 ##*Tarea
