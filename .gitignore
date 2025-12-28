@@ -1,2 +1,5 @@
-!.gitignore
-/tobechecked
+/*
+!/tobechecked/
+!/LICENSE.md
+!/README.org
+!/.gitignore
