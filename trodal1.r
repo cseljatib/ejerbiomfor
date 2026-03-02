@@ -1,4 +1,4 @@
-##! Script: "trodal.r"                                              /
+##! Script: "trodal1.r"                                             /
 ##+ Sobre:  Construccion de tabla de rodal y grafico distribucion  /
 ##  diametrica.                                                   /
 ##- Detalles: El script se organiza como sigue: calculo de       /

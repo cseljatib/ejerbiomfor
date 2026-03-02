@@ -1,4 +1,4 @@
-##! Script: "ajufdpwei.r"                                            /
+##! Script: "ajufdpwei2.r"                                            /
 ##* Sobre:  Ajuste funcion de densidad de probabilidades            /
 ##+ Detalles: Emplea estimador numerico de maxima verosimilitud,   /
 ##  mediante optimizacion.                                       /
@@ -143,23 +143,37 @@ tail(df.h)
 
 ##------------------------
 ##Para visualizar el ajuste del modelo, se puede proceder como sigue
-##(1) primero construir tabla de rodal, para mismos intervalos anteriores
-min.lim.sup<-df.h$lim.sup[1];min.lim.sup
-max.lim.sup<-df.h$lim.sup[nrow(df.h)];max.lim.sup
-breaks.yo<-c(0,seq(min.lim.sup,max.lim.sup,by=w.amp))
-breaks.yo
-cls.y <- breaks.yo; cls.y
-y.class <- findInterval(df$y, cls.y)
-y.class <- factor(y.class*w.amp); y.class
-y.class[y.class=="0"]<-w.amp
-nha.cd<-table(y.class)*fexp
-cds<-sort(as.numeric(names(nha.cd)))
-nha.cd<-as.numeric(nha.cd)
-sum(nha.cd)
-#tabla de rodal
-trod<-data.frame(cds,nha.cd)
-trod
-sum(trod$nha.cd)
+##(1) primero construir tabla de rodal, para mismos intervalos
+##anteriores
+
+##+ (ii) Asignacion de clase diametrica a cada arbol
+## empleando funcion assigncl() de paquete datana
+df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
+df
+table(df$clase.d)
+unique(df$clase.d)
+sort(unique(df$clase.d))
+
+##iii. Creando la tabla rodal
+trod<-tapply(df$fe, df$clase.d, sum)
+
+
+## min.lim.sup<-df.h$lim.sup[1];min.lim.sup
+## max.lim.sup<-df.h$lim.sup[nrow(df.h)];max.lim.sup
+## breaks.yo<-c(0,seq(min.lim.sup,max.lim.sup,by=w.amp))
+## breaks.yo
+## cls.y <- breaks.yo; cls.y
+## y.class <- findInterval(df$y, cls.y)
+## y.class <- factor(y.class*w.amp); y.class
+## y.class[y.class=="0"]<-w.amp
+## nha.cd<-table(y.class)*fexp
+## cds<-sort(as.numeric(names(nha.cd)))
+## nha.cd<-as.numeric(nha.cd)
+## sum(nha.cd)
+## #tabla de rodal
+## trod<-data.frame(cds,nha.cd)
+## trod
+## sum(trod$nha.cd)
 
 #(2) graficar ambas aproximaciones
 length(dap.l)
