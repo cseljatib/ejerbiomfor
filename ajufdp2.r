@@ -1,4 +1,4 @@
-##! Script: "ajufdpwei2.r"                                            /
+##! Script: "ajufdp2.r"                                            /
 ##* Sobre:  Ajuste funcion de densidad de probabilidades            /
 ##+ Detalles: Emplea estimador numerico de maxima verosimilitud,   /
 ##  mediante optimizacion.                                       /
