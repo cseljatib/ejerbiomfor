@@ -21,7 +21,6 @@ library(biometrics)
 data("pinaster2")
 #?pinaster2 #ejecutelo en la consola
 
-data("pinaster2")
 df<-pinaster2
 ##creando nuevas columnas (variables), para simplificar el codigo mas adelante
 df$d<-df$dap
@@ -37,29 +36,48 @@ df$h2<-df$h^2
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##- Modelo 1
 ##> mod1: v=b0+b1(d^2)+b2(d^2*h^2)+b3(d^2*h)+b4(h^2)
-m1<-lm(v~d2+d2h2+h2d+h2,data=df)
+m1<-lm(v~I(d^2)+I(d^2*h^2)+I(h^2*d)+I(h^2),data=df)
 summary(m1)
-
-##? comparar lo anterior con
-m1b<-lm(v~I(d^2)+I(d^2*h^2)+I(h^2*dap)+I(h^2),data=df)
-summary(m1b)
-
-coef(m1)
-coef(m1b)
 
 ##- Modelo 2
 ##> mod2: (d^2)/v=b0+b1(1/h)
-df$d2.v<-df$d2/df$v
-df$inv.h<-1/df$h
-m2<-lm(d2.v~inv.h,data=df)
+m2<-lm(I(d^2/v)~I(1/h),data=df)
 summary(m2)
 
-##? comparar lo anterior con
-m2b<-lm(I(d^2/v)~I(1/h),data=df)
-summary(m2b)
 
-coef(m2)
-coef(m2b)
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! IV. Prediccion (simple) con modelo ajustados
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##? Se usa la funcion predict().
+
+##! a). Prediccion para las observaciones en "df"
+
+##- Prediccion a partir de modelo 1
+df$v.m1<-predict(m1,newdata = df)
+
+##- Prediccion a partir de modelo 2
+df$v.m2<-(1/predict(m2,newdata = df))*df$d^2
+
+head(df)
+
+##! b). Prediccion para valores dados de altura y diametro dados
+d.ast<-16.5; h.ast<-11.7
+summary(m1)
+df.ast<-data.frame(d=d.ast,h=h.ast)
+df.ast
+
+##- Prediccion a partir de modelo 1
+predict(m1,newdata = df.ast)
+
+##- Prediccion a partir de modelo 2
+df.ast$d^2*(1/predict(m2,newdata = df.ast))
+
+##y si los quiere agregar a esta dataframe
+
+df.ast$v.m1<-predict(m1,newdata = df.ast)
+df.ast$v.m2<-df.ast$d^2*(1/predict(m2,newdata = df.ast))
+
+df.ast
 
 #+╔═════════════════╗
 #+║ Fin del script! ║

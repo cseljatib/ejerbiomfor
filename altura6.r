@@ -143,7 +143,6 @@ head(df[,c("dap","atot","aju1","aju1.old","aju2","aju2.old")])
 predstat(obs=df$atot,pre=df$aju1)
 predstat(obs=df$atot,pre=df$aju2)
 
-
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! Tarea sugerida:
 ## 1. Prepare un cuadro en una hoja a mano, y escriba los
@@ -160,11 +159,11 @@ predstat(obs=df$atot,pre=df$aju2)
 ## Una vez que realice lo anterior, podria
 ## comparar su segundo cuadro con lo siguiente, que emplea
 ## la funcion predstatmod() del paquete datana
-df.ajumod1<-data.frame(altura.obs=df$atot,altura.pred=df$aju1,modelo="Modelo 1")
-df.ajumod2<-data.frame(altura.obs=df$atot,altura.pred=df$aju2,modelo="Modelo 2")
-df.ajusmodels<-rbind(df.ajumod1,df.ajumod2)
+## df.ajumod1<-data.frame(altura.obs=df$atot,altura.pred=df$aju1,modelo="Modelo 1")
+## df.ajumod2<-data.frame(altura.obs=df$atot,altura.pred=df$aju2,modelo="Modelo 2")
+## df.ajusmodels<-rbind(df.ajumod1,df.ajumod2)
 ##- Aplicando la funcion para generar una tabla comparativa
-predstatmod(data=df.ajusmodels,obs="altura.obs",pre="altura.pred", model="modelo")
+## predstatmod(data=df.ajusmodels,obs="altura.obs",pre="altura.pred", model="modelo")
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
