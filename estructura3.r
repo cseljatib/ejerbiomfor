@@ -1,6 +1,6 @@
 #!==================================================*#
 #- Script: "estructura3.r"
-#* In short: 'trodalExistMuestreo'                *#
+#* In short: 'estructura3'                          *#
 #* Sobre:  Genera una tabla de rodal y existencias  *#
 #*  a partir de datos a nivel de arbol en varias    *#
 #*  parcelas de muestreo. El script se organiza como*#
@@ -28,6 +28,7 @@
 library(biometrics)
 head(radiatapl2)
 #?radiatapl2
+library(datana)
 #~~~~~~~
 
 #asignacion de dataframe a objeto "df"
@@ -81,7 +82,8 @@ gha.ppar
 #tenemos los siguientes resultados, y los 
 # asignaremos a objetos con nombres estandares
 N<-nha.ppar;G<-gha.ppar;
-Dg<-sqrt((G/N)*(40000/pi))
+#Dg<-sqrt((G/N)*(40000/pi))
+Dg<-dg.fx(n=N,g=G)
 varest.ppar<-data.frame(N,G,Dg)
 varest.ppar
 
@@ -107,7 +109,7 @@ range(df$dap)
 diff(range(df$dap))/2
 w.amp <- 2
 #ii. asignacion de clase diametrica a cada arbol
-df$clase.d<-(as.integer((df$dap+((w.amp/2)-0.1))/w.amp))*w.amp
+df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
 unique(df$clase.d)
 sort(unique(df$clase.d))
 length(unique(df$clase.d))
@@ -206,7 +208,7 @@ df1$h.final <- df1$atot
 # necesarias
 trl <- rbind(df0,df1)
 dim(trl)
-
+head(trl)
 ###termino de prediccion segun modelo dendrometrico
 # establecido para la altura
 

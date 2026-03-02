@@ -125,9 +125,9 @@ legend("bottomright",c("Michaelis-Menten","Stage"), title="Modelo",
 
 
 ##- Calcule el RMSD, DIFA, y DA de cada modelo.
-valesta(y.obs = df$atot, y.pred = df$h.mm)
+predstat(obs = df$atot, pre = df$h.mm)
 
-valesta(y.obs = df$atot, y.pred = df$h.sta)
+predstat(obs = df$atot, pre = df$h.sta)
 
 ##+ ===============================
 ##*Tarea

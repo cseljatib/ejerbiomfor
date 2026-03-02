@@ -16,7 +16,7 @@
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! I. Datos para ejemplo
+##! I. Datos
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
 data(idahohd2)
@@ -130,13 +130,13 @@ df$e.aju1 <- residuals(mod1)
 ##+ es decir, valor esperado para la variable respuesta
 ##i. alternativa con funcion pre-programada en R
 plot(atot~dap, data=df, xlab="Diametro (cm)", ylab="Altura (m)")
-abline(mod1, col="red")
+abline(mod1)
 
-##- Compare el anterior con este grafico
+##- Compare el anterior grafico con el siguiente:
 plot(atot~dap, data=df, xlab="Diametro (cm)", ylab="Altura (m)",
      col="gray",las=1)
 abline(mod1, col="red",lwd=2)
-
+##? ve algo distinto?
 
 ##? ii. alternativa mas larga, pero quizas mas transparente
 ##- Generando vector ficticio con la variable predictora

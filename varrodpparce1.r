@@ -1,36 +1,39 @@
-##* ==================================================*#
-##! Script: "varrodpparce.r"
-##+ In short: 'variables de rodal por parcela'       *#
-##* Sobre:  Calcula variables de estado de rodal     *#
-##  a partir de datos a nivel de arbol en varias    *#
-##  parcelas de muestreo. El script se organiza como*#
-##  sigue:                                          *#
-##-  1. Calculo de densidad y area basal por parcela.*#
-##+  2. Ajusta un modelo de altura-diametro          *#
-##-  3. Predice altura, con modelo anterior, a los   *# 
-##  arboles no-muestra.                             *#
-##-  4. Predice el volumen individual, con un modelo*#
-##  para la especie                                 *# 
-##  arboles no-muestra.                             *#
-##-  5. Calculo de alt. media y volumen por parcela. *#
-##                                                  *#
-##> Profesor: Christian Salas Eljatib                *#
-## E-mail: cseljatib AT gmail DOT com               *#
-##? Web: https://eljatib.com                         *#
-##* ==================================================*#
-#~~~~~~~
-#Datos a emplear
+##! Script: "varrodpparce1.r"                                     /
+##- Sobre:  Variables de rodal por parcela                       /
+##+ Detalles:  Calcula variables de estado de rodal a partir de /
+##  datos a nivel de arbol en varias parcelas de muestreo.     /
+##* Ejemplo: Lista de arboles (radiatapl2).                   /
+##? Mas detalles: El script se organiza como sigue:          /
+##+  1). Calculo de densidad y area basal por parcela.      /
+##+  2). Ajusta un modelo de altura-diametro               /
+##+  3). Predice altura, con modelo anterior, a los       /
+##  arboles no-muestra.                                  /
+##+  4). Predice el volumen individual, con un modelo   /
+##  para la especie.                                   /
+##+  5). Calculo de alt. media y volumen por parcela. /
+##! -------------------------------------------------/ 
+##                                                  /
+##> Profesor: Christian Salas Eljatib              /
+##? E-mail: christian.salas AT uchile DOT cl      /
+## Web: https://eljatib.com                      /
+##!=============================================/
+
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! I. Datos
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(biometrics)
-head(radiatapl2)
 #?radiatapl2
+df<-radiatapl2
+head(radiatapl2)
 #~~~~~~~
 
+#antecedentes dados
 sup.plantacion<-45 #ha
-#asignacion de dataframe a objeto "df"
-df<-radiatapl2
+sup.parce<-150 #en m2
 
-#~~~~
-#revisando los datos
+#+ ===================
+#  Revisando los datos
 str(df)
 head(df)
 names(df)
@@ -47,7 +50,8 @@ table(df$parce)
 
 n.parcelas<-length(unique(df$parce))
 n.parcelas
-sup.parce<-150
+
+#+ ===================
 
 #==============================
 #1) Calculo de N y G por parcela

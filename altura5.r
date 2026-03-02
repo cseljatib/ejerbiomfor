@@ -15,7 +15,7 @@
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! I. Datos para ejemplo
+##! I. Datos
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(biometrics)
 data(biomass2)
