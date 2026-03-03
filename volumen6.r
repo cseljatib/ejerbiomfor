@@ -1,4 +1,4 @@
-##! Script: "volumen3.r"                                          /
+##! Script: "volumen6.r"                                          /
 ##- Sobre:  Ajuste y comparacion de varios modelos de volumen       /
 ##+ Detalles:  Algunos simples, otros multiples, con
 ## transformaciones en variable respuesta y/o predictora(s).                        /
@@ -31,6 +31,7 @@ df$v<-df$vtcc
 
 descstat(df[,c("d","h","v")])
 
+##! Algunos graficos de dispersion
 plot(v~I(d),data=df)
 plot(I(log(v))~I(log(d)),data=df)
 plot(v~I(d^2),data=df)
@@ -110,12 +111,12 @@ predstat(obs=df$v,pre=df$v.m4,want.percent = T)
 ##! Bonus!!:
 ## Una vez que realice lo anterior,
 ##podria comparar su ultimo cuadro con lo siguiente,
-mod1<-predstat(obs=df$v,pre=df$v.m1,want.percent = T)
-mod2<-predstat(obs=df$v,pre=df$v.m2,want.percent = T)
-mod3<-predstat(obs=df$v,pre=df$v.m3,want.percent = T)
-mod4<-predstat(obs=df$v,pre=df$v.m4,want.percent = T)
-
-rbind(mod1,mod2,mod3,mod4)
+# mod1<-predstat(obs=df$v,pre=df$v.m1,want.percent = T)
+# mod2<-predstat(obs=df$v,pre=df$v.m2,want.percent = T)
+# mod3<-predstat(obs=df$v,pre=df$v.m3,want.percent = T)
+# mod4<-predstat(obs=df$v,pre=df$v.m4,want.percent = T)
+# 
+# rbind(mod1,mod2,mod3,mod4)
 
 #+╔═════════════════╗
 #+║ Fin del script! ║
