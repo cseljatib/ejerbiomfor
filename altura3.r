@@ -69,7 +69,7 @@ h.mod1 <- b0.hat + b1.hat * (d.ast)
 
 #grafico de comportamiento-modelo 1
 plot(atot~dap, data=df)
-lines(d.test, h.mod1, col="red",lwd=2)
+lines(d.ast, h.mod1, col="red",lwd=2)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! IV. Ajuste del modelo 2
@@ -131,9 +131,9 @@ h.mod3 <- exp(b0.hat3 + b1.hat3 * exp(-0.03*d.ast))
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 plot(atot~dap, data=df,xlab="Diametro (cm)",
      ylab="Altura (m)", las=1, col="gray")
-lines(d.test, h.mod1, col="red", lwd=2, lty=1)
-lines(d.test, h.mod2, col="blue", lwd=2, lty=2)
-lines(d.test, h.mod3, col="black", lwd=2, lty=1)
+lines(d.ast, h.mod1, col="red", lwd=2, lty=1)
+lines(d.ast, h.mod2, col="blue", lwd=2, lty=2)
+lines(d.ast, h.mod3, col="black", lwd=2, lty=1)
 
 legend("bottomright",c("Mod1","Mod2","Mod3"), title="Modelo",
        col = c("red","blue","black"), lty=c(1,2,1), lwd=c(2,2,2))

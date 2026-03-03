@@ -1,5 +1,6 @@
 ##! Script: "volumen1.r"                                         /
-##- Sobre:  Ajuste y comparacion de tres modelos de volumen     /
+##- Sobre:  Ajuste y comparacion  modelos de volumen simple y   /
+## multiple
 ##+ Detalles:  Emplea estimador de minimos cuadrados.          /
 ##* Ejemplo: Datos de volumen Pinus pinaster (data=pinaster2)./
 ##                                                           /
@@ -22,27 +23,54 @@ df<-pinaster2
 
 head(df)
 
-df$d2 <- df$dap^2
 
 ##+ Definiendo el tipo de volumen a ocupar
+df$d<-df$dap
+df$h<-df$atot
 df$v <- df$vtcc #volumen con corteza
 
 library(datana)
-descstat(df[,c("dap","atot","v")])
+descstat(df[,c("d","h","v")])
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! II. Graficos de interes
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##-Distribucion
-hist(df$dap)
-hist(df$atot)
+hist(df$d)
+hist(df$h)
 hist(df$v)
 
 
-plot(v~dap, data=df)
+plot(v~d, data=df)
 
 ##- Grafico dispersion con distribucion marginal
-xyhist(x=df$dap,y=df$v)
+xyhist(x=df$d,y=df$v)
+
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! III. Ajuste de modelo lineal simple
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##- Modelo 1
+##? v_i=beta_0+beta_1(d_i)+varepsilon_i
+m1<-lm(v~d, data=df)
+summary(m1)
+
+
+##- Modelo 1
+##? v_i=beta_0+beta_1(d_i)+varepsilon_i
+m1<-lm(v~d, data=df)
+summary(m1)
+
+
+
+df$d2 <- df$dap^2
+
+
+##- Modelo 1
+##? v_i=beta_0+beta_1(d_i^2)+varepsilon_i
+m1<-lm(v~d2, data=df)
+summary(m1)
+
 
 ##+ Creando una nueva variable
 df$d2h<-(df$d2*df$atot)
@@ -56,13 +84,6 @@ df$ln.d2h <- log(df$d2h)
 
 plot(ln.v~ln.d2h, data=df)
 
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##! III. Ajuste de modelos
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- Modelo 1
-##? v_i=beta_0+beta_1(d_i^2)+varepsilon_i
-m1<-lm(v~d2, data=df)
-summary(m1)
 
 ##- Modelo 2
 ##? v_i=beta_0+beta_1(d_i^2*h)+varepsilon_i

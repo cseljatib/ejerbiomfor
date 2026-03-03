@@ -96,13 +96,13 @@ b1.hat<-coef(mod1)[2]
 b0.hat
 b1.hat
 b0.hat + b1.hat * 50
-
+b0.hat + b1.hat * 40
 ##- ========= 
 ##? Como obtener el valor ajustado para el modelo 1
 # Para la variable respuesta-biometrica de interes, i.e., altura 
 #*1) para un par de valores de la variable predictora-biometrica
-d.play<-30:35;d.play
-b0.hat + b1.hat * (d.play)
+d.ast<-30:35;d.ast
+b0.hat + b1.hat * (d.ast)
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -142,11 +142,11 @@ abline(mod1, col="red",lwd=2)
 ##- Generando vector ficticio con la variable predictora
 #*2) para todos los valores a evaluar de la variable predictora-biometrica
 1:5 #una secuencia
-d.test <- 10:110
-h.mod1 <- b0.hat + b1.hat * (d.test)
+d.ast <- 10:110
+h.mod1 <- b0.hat + b1.hat * (d.ast)
 
 plot(atot~dap, data=df)
-lines(d.test, h.mod1, col="red")
+lines(d.ast, h.mod1, col="red")
 
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
