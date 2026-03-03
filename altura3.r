@@ -60,11 +60,11 @@ b1.hat<-coef(mod1)[2]
 ##? Como obtener el valor ajustado para el modelo 1
 # Para la variable respuesta-biometrica de interes, i.e., altura 
 #*1) para un par de valores de la variable predictora-biometrica
-d.play<-30:35;d.play
-b0.hat + b1.hat * (1/d.play)
+d.ast<-30:35;d.ast
+b0.hat + b1.hat * (d.ast)
 #*2) para todos los valores a evaluar de la variable predictora-biometrica
-d.test <- 10:110
-h.mod1 <- b0.hat + b1.hat * (1/d.test)
+d.ast <- 10:110
+h.mod1 <- b0.hat + b1.hat * (d.ast)
 
 
 #grafico de comportamiento-modelo 1
@@ -89,10 +89,10 @@ b1.hat2
 ##? Como obtener el valor ajustado para el modelo 2
 # Para la variable respuesta-biometrica de interes, i.e., altura 
 #*1) para un par de valores de la variable predictora-biometrica
-d.play
-b0.hat + b1.hat * (1/d.play)
+d.ast
+b0.hat + b1.hat * (1/d.ast)
 #*2) para todos los valores a evaluar de la variable predictora-biometrica
-h.mod2 <- b0.hat2 + b1.hat2 * (1/d.test)
+h.mod2 <- b0.hat2 + b1.hat2 * (1/d.ast)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! V. Ajuste del modelo 3
@@ -117,14 +117,14 @@ b1.hat3
 ##? Como obtener el valor ajustado para el modelo 3
 # Para la variable respuesta-biometrica de interes, i.e., altura 
 #*1) para un par de valores de la variable predictora-biometrica
-d.play
-b0.hat3+ b1.hat3 * (exp(-0.03*d.play))
+d.ast
+b0.hat3+ b1.hat3 * (exp(-0.03*d.ast))
 # en que unidad esta la variable respuesta del modelo
 ## estadistico ajustado?.
-exp(b0.hat3+ b1.hat3 * (exp(-0.03*d.play)))
+exp(b0.hat3+ b1.hat3 * (exp(-0.03*d.ast)))
 
 #*2) para todos los valores a evaluar de la variable predictora-biometrica
-h.mod3 <- exp(b0.hat3 + b1.hat3 * exp(-0.03*d.test))
+h.mod3 <- exp(b0.hat3 + b1.hat3 * exp(-0.03*d.ast))
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! VI. Grafico de comportamiento para los tres modelos ajustados
