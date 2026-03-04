@@ -94,7 +94,6 @@ amp.diam <- 5
 trod<-biometrics:::standtab(data=df,plot.id = 1, plot.area = sup.plot,d="dap",w.amp=amp.diam)
 trod
 
-
 ##? verificando que la suma de la densidad por clase diametrica es
 ##igual a la densidad total del rodal
 nha
@@ -106,7 +105,6 @@ sum(trod$nha.cd)
 ##- IV. Aplicando el modelo ajustado
 ##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ## (a) generando una tabla de rodal
-
 cdap<-trod$dap.class
 nha.cd<-trod$nha.cd
 lim.inf <- cdap-(amp.diam/2);lim.inf
@@ -147,6 +145,11 @@ legend("topright",c("Observada","Fdp de Weibull"),
        lty = c(1,1), pch=c(1,1))
 
 message("Si ves este mensaje, estamos OK!!")
+
+
+head(trod.espe)
+predstat(obs=trod.espe$nha.cd,pre = trod.espe$nha.cd.esp)
+predstat(obs=trod.espe$nha.cd,pre = trod.espe$nha.cd.esp,want.percent = TRUE)
 
 #╔══════════════════════╗
 #║ Estimad@ estudiante: ║
