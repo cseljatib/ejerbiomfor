@@ -86,9 +86,10 @@ loglike.wei(c(1,20),df$y)
 loglike.wei(c(4,30),df$y)
 
 ##valores iniciales para los parametros a ser estimados
-candidatos<-c(.2,30)
+candidatos<-c(.2,10)
 candidatos
 
+descstat(df$y, full=T)
 ##?optim
 optim.loglik.wei<-optim(c(candidatos[1],candidatos[2]),loglike.wei,data=df$y)
 optim.loglik.wei
@@ -108,10 +109,10 @@ beta.mle<-param.wei.mle[2]
 
 ##? (a) probabilidad estimada segun el modelo ajustado
 range(df$y)
-w.amp <- 5
-cdap<-seq(5,80, by=w.amp)
-lim.inf <- cdap-(w.amp/2);lim.inf
-lim.sup <- cdap+(w.amp/2);lim.sup
+amp.diam <- 5
+cdap<-seq(5,80, by=amp.diam)
+lim.inf <- cdap-(amp.diam/2);lim.inf
+lim.sup <- cdap+(amp.diam/2);lim.sup
 cbind(lim.inf,lim.sup)
 prob.sup<-pweibull(lim.sup, shape = alpha.mle, scale = beta.mle)
 prob.inf<-pweibull(lim.inf, shape = alpha.mle, scale = beta.mle)
