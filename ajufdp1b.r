@@ -1,6 +1,7 @@
-##! Script: "ajufdp2.r"                                            /
-##* Sobre:  Ajuste funcion de densidad de probabilidades            /
-##+ Detalles: Emplea estimador numerico de maxima verosimilitud,   /
+##! Script: "ajufdp1b.r"                                            /
+##* Sobre:  Ajuste de funcion de densidad de probabilidades  y    /
+##    comparacion con la tabla de rodal respectiva.
+##+ Detalles: Emplea estimador numerico de maxima verosimilitud,  /
 ##  mediante optimizacion.                                       /
 ##- Ejemplo: Ajuste de funcion de Weibull para datos de          /
 ##  diametro de arboles en un bosque.                          /
@@ -12,40 +13,16 @@
 ##=======================================================/
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- I. Empleando la funcion de Poisson
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- (a) Matematicamente se escribe como
-##....., escribiendo la expresion
-beta<-6;alpha=3.6;y.aca<-5
-(alpha/beta)* 
-  ((y.aca/beta)^(alpha-1))*
-  exp(-(y.aca/beta)^alpha)
-
-##- (b) Ocupemos una funcion ya escrita en R, que
-## calcula la misma expresion matematica que escribimos antes.
-#La funcion se llama "dweibull()", revise ayuda sobre ella con
-#?dweibull
-dweibull(5,shape=3.6,scale=6)
-dweibull(3,shape=1.6,scale=4)
-##empleando nuestros objetos
-dweibull(y.aca,shape=alpha,scale=beta)
-
-##- (c) Ocupemos la expresion de la probabilidad acumulada
-## de funcion de Weibull
-1-exp(-(5/6)^3.6)##expresion matematica
-pweibull(5,shape=3.6,scale=6)
-pweibull(y.aca,shape=alpha,scale=beta)
-#y otros
-pweibull(5,shape=1.6,scale=4)
-pweibull(10,shape=1.6,scale=4)
-
-##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- II. Datos a emplear
+##- I. Datos a emplear
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
 head(llancahue2)
-#Activar siguiente linea para ver metadata
-#?llancahue
+##Activar siguiente linea para ver metadata
+#?llancahuemessage("llamando ajufdpwei")
+name.code.fdp1<-"ajufdp1a.r"#"07_6ajusteFpdWeibull.R"
+file.name.h <-file.path(eje.dir,name.code.fdp1)
+
+source(file.name.h)
 df <- llancahue2
 dim(df)
 str(df)
@@ -58,8 +35,8 @@ sup.plot<-130*70  #en m2
 sup.plot
 sup.plot.ha<-sup.plot/10000 #en hectareas
 sup.plot.ha
-fexp<-10000/sup.plot
-nha<-nrow(df)*fexp
+fe<-10000/sup.plot
+nha<-nrow(df)*fe
 nha
 
 #-- Declarando la variable aleatoria de interes
@@ -71,12 +48,11 @@ hist(df$y)
 histbxp(df$y)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- III. Ajustando el modelo de Fdp
+##- II. Ajuste del modelo de fdp
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##+ Ajuste mediante maxima verosimilitud
-
-##Maximizar la funcion de maxima verosimilitud de la fdp
-##Aca se define (por Ud) una funcion que la calcule
+## Maximizar la funcion de maxima verosimilitud de la fdp
+## Aca se define (por Ud) una funcion que la calcule
 loglike.wei <-function(parametros=parametros,
                         data=data){
   -sum(dweibull(data, shape=parametros[1],scale=parametros[2],log = T))
@@ -102,12 +78,51 @@ param.wei.mle
 alpha.mle<-param.wei.mle[1]
 beta.mle<-param.wei.mle[2]
 
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##- III. Comparacion con tabla de rodal
+##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+##------------------------
+##Para visualizar el ajuste del modelo, se puede proceder como sigue
+##(1) primero construir tabla de rodal, para mismos intervalos
+##anteriores
+
+##+ (ii) Asignacion de clase diametrica a cada arbol
+w.amp <- 5
+## empleando funcion assigncl() de paquete datana
+df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
+head(df)
+table(df$clase.d)
+unique(df$clase.d)
+sort(unique(df$clase.d))
+df$fe<-fe
+##iii. Creando la tabla rodal
+trod<-tapply(df$fe, df$clase.d, sum)
+trod
+
+nha.cd<-trod;nha.cd
+cdap<-sort(as.numeric(names(nha.cd)));cdap
+
+##? verificando que la suma de la densidad por clase diametrica es
+##igual a la densidad total del rodal
+nha
+sum(nha.cd)
+
+#tabla de rodal
+trod<-data.frame(cdap,nha.cd)
+trod
+str(trod)
+sum(trod$nha.cd)
+
+
+
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##- IV. Aplicando el modelo ajustado
 ##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ## (a) generando una tabla de rodal
 range(df$y)
-w.amp <- 5
+
 dap.l<-seq(5,80, by=w.amp)
 lim.inf <- dap.l-(w.amp/2);lim.inf
 lim.sup <- dap.l+(w.amp/2);lim.sup
@@ -141,21 +156,6 @@ head(df.h)
 dim(df.h)
 tail(df.h)
 
-##------------------------
-##Para visualizar el ajuste del modelo, se puede proceder como sigue
-##(1) primero construir tabla de rodal, para mismos intervalos
-##anteriores
-
-##+ (ii) Asignacion de clase diametrica a cada arbol
-## empleando funcion assigncl() de paquete datana
-df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
-df
-table(df$clase.d)
-unique(df$clase.d)
-sort(unique(df$clase.d))
-
-##iii. Creando la tabla rodal
-trod<-tapply(df$fe, df$clase.d, sum)
 
 
 ## min.lim.sup<-df.h$lim.sup[1];min.lim.sup

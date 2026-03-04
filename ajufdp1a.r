@@ -1,4 +1,4 @@
-##! Script: "ajufdp1.r"                                            /
+##! Script: "ajufdp1a.r"                                            /
 ##* Sobre:  Ajuste funcion de densidad de probabilidades            /
 ##+ Detalles: Emplea estimador numerico de maxima verosimilitud,   /
 ##  mediante optimizacion.                                       /
@@ -12,7 +12,7 @@
 ##=======================================================/
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##- I. Empleando la funcion de Poisson
+##- I. Empleando la funcion de Weibull
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##- (a) Matematicamente se escribe como
 ##....., escribiendo la expresion
@@ -105,43 +105,45 @@ beta.mle<-param.wei.mle[2]
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##- IV. Aplicando el modelo ajustado
 ##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-## (a) generando una tabla de rodal
+
+##? (a) probabilidad estimada segun el modelo ajustado
 range(df$y)
 w.amp <- 5
-dap.l<-seq(5,80, by=w.amp)
-lim.inf <- dap.l-(w.amp/2);lim.inf
-lim.sup <- dap.l+(w.amp/2);lim.sup
+cdap<-seq(5,80, by=w.amp)
+lim.inf <- cdap-(w.amp/2);lim.inf
+lim.sup <- cdap+(w.amp/2);lim.sup
 cbind(lim.inf,lim.sup)
 prob.sup<-pweibull(lim.sup, shape = alpha.mle, scale = beta.mle)
 prob.inf<-pweibull(lim.inf, shape = alpha.mle, scale = beta.mle)
 prob.cd<-prob.sup-prob.inf
 sum(prob.cd)
 
-##lo que resta de probabilidades debe ser asignado
+##!lo que resta de probabilidades debe ser asignado
 delta.prob<-1-sum(prob.cd)
 delta.prob
 #una posibilidad es asignar diferencial uniformemente
-length(dap.l)
-delta.prob/length(dap.l)
+length(cdap)
+delta.prob/length(cdap)
 #otra es asignar diferencial proporcionalmente
 pondera.cd.ori<-pondera.cd<-prob.cd/sum(prob.cd)
 sum(pondera.cd)
 
 prob.cd.nogood<-prob.cd
 
-data.frame(dap.l,lim.inf,lim.sup,prob.inf,prob.cd.nogood,pondera.cd)
-data.frame(dap.l,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd,pondera.cd)
+data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd,pondera.cd)
 addcd.dife.prob<-pondera.cd*delta.prob
 prob.cd<-prob.cd+addcd.dife.prob
 
-df.h<-data.frame(dap.l,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd,pondera.cd)
-sum(prob.cd)
+df.h<-data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd,pondera.cd)
+sum(prob.cd)  ##! debe dar 1
 head(df.h)
 dim(df.h)
 tail(df.h)
 
+##? (b) Curva de probabilidad estimada para la distribucion de
+##diametros
 
-plot(prob.cd~dap.l, data=df.h,type = "o",las=1,bty="l",
+plot(prob.cd~cdap, data=df.h,type = "o",las=1,bty="l",
      ylab="Frecuencia relativa estimada",xlab="Diametro (cm)")
 
 
