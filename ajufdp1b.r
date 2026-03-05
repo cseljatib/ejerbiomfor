@@ -124,8 +124,8 @@ prob.cd.nogood<-prob.cd
 addcd.dife.prob<-pondera.cd*delta.prob
 prob.cd<-prob.cd+addcd.dife.prob
 
-df.h<-data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd)
-
+#df.h<-data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd)
+df.h<-data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd.nogood,pondera.cd,delta.prob,prob.cd)
 sum(df.h$prob.cd)
 head(df.h)
 
