@@ -86,12 +86,14 @@ beta.mle<-param.wei.mle[2]
 ##(1) primero construir tabla de rodal, para mismos intervalos
 ##anteriores
 
-##+ (ii) Asignacion de clase diametrica a cada arbol
+##+ amplitud de la clase diametrica a utilizar
 amp.diam <- 5
-## empleando funcion assigncl() de paquete datana
-
+##+ crear una columna con la superficie de la parcela, en metros cuadrados
+sup.plot
+df$sup.plot<-sup.plot
+    
 ##iii. Creando la tabla rodal
-trod<-biometrics:::standtab(data=df,plot.id = 1, plot.area = sup.plot,d="dap",w.amp=amp.diam)
+trod<-biometrics:::standtab(data=df,plot.id = 1, plot.area = "sup.plot",d="dap",w.amp=amp.diam)
 trod
 
 ##? verificando que la suma de la densidad por clase diametrica es
@@ -127,7 +129,7 @@ df.h<-data.frame(cdap,lim.inf,lim.sup,prob.inf,prob.sup,prob.cd)
 sum(df.h$prob.cd)
 head(df.h)
 
-#(2) graficar ambas aproximaciones
+##+ (2) graficar ambas aproximaciones
 frec.rel<-as.numeric(nha.cd/nha)
 sum(frec.rel)
 #para verificar
@@ -144,15 +146,14 @@ legend("topright",c("Observada","Fdp de Weibull"),
        col=c("black","red"),
        lty = c(1,1), pch=c(1,1))
 
-message("Si ves este mensaje, estamos OK!!")
-
-
+##+ (3) Calculo de estadisticos predictivos
 head(trod.espe)
 predstat(obs=trod.espe$nha.cd,pre = trod.espe$nha.cd.esp)
 predstat(obs=trod.espe$nha.cd,pre = trod.espe$nha.cd.esp,want.percent = TRUE)
 
-#╔══════════════════════╗
-#║ Estimad@ estudiante: ║
-#║ DisfRute el ejemplo! ║
-#║ El profesor     ╔════╝
-#╚═════════════════╝
+message("Si ves este mensaje, estamos OK!!")
+##╔══════════════════════╗
+##║ Estimad@ estudiante: ║
+##║ DisfRute el ejemplo! ║
+##║ El profesor     ╔════╝
+##╚═════════════════╝
