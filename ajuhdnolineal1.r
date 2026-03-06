@@ -61,6 +61,7 @@ coef(poder.nls)
 (summary(poder.nls))$sigma 
 sigma.e<-(summary(poder.nls))$sigma 
 sigma.e
+var.e<-sigma.e^2;var.e
 
 ##+ Int.Conf. coef.estimados
 coef(poder.nls)
@@ -78,11 +79,12 @@ b1.hat<-coef(poder.nls)[2]
 
 b0.hat
 b1.hat
+sigma.e
 
 ##-Valores esperados segun el modelo
 range(df$dap)
-d.fake <- seq(10,122,by=0.1)
-yhat<-predict(poder.nls, newdata=data.frame(dap=d.fake))
+d.ast <- seq(10,122,by=0.1);d.ast
+yhat<-predict(poder.nls, newdata=data.frame(dap=d.ast))
 
 ##- Grafico de dispersion con valor esperado del modelo
 plot(atot~dap, data=df)
