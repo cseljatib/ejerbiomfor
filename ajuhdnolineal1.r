@@ -83,12 +83,12 @@ sigma.e
 
 ##-Valores esperados segun el modelo
 range(df$dap)
-d.ast <- seq(10,122,by=0.1);d.ast
+d.ast <- seq(10,122,by=0.1);d.ast[1:10]
 yhat<-predict(poder.nls, newdata=data.frame(dap=d.ast))
 
 ##- Grafico de dispersion con valor esperado del modelo
 plot(atot~dap, data=df)
-lines(d.fake, yhat, col="red",lwd=2)
+lines(d.ast, yhat, col="red",lwd=2)
 ##!==fin del grafico de comportamiento
 
 
