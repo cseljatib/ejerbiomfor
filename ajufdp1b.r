@@ -91,15 +91,17 @@ amp.diam <- 5
 ##+ crear una columna con la superficie de la parcela, en metros cuadrados
 sup.plot
 df$sup.plot<-sup.plot
-    
+head(df)
+
 ##iii. Creando la tabla rodal
-trod<-biometrics:::standtab(data=df,plot.id = 1, plot.area = "sup.plot",d="dap",w.amp=amp.diam)
+trod<-standtab(data=df,plot.area = "sup.plot",y.for.class = "dap",
+               yclass.amp=amp.diam)
 trod
 
 ##? verificando que la suma de la densidad por clase diametrica es
 ##igual a la densidad total del rodal
 nha
-sum(trod$nha.cd)
+sum(trod$nha.class)
 
 
 
@@ -108,7 +110,7 @@ sum(trod$nha.cd)
 ##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ## (a) generando una tabla de rodal
 cdap<-trod$dap.class
-nha.cd<-trod$nha.cd
+nha.cd<-trod$nha.class
 lim.inf <- cdap-(amp.diam/2);lim.inf
 lim.sup <- cdap+(amp.diam/2);lim.sup
 cbind(lim.inf,lim.sup)
