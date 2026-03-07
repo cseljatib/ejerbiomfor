@@ -52,8 +52,8 @@ plot(atot ~ dap, data=df)
 library(biometrics)
 ## revisar la expresion matematica con
 ##> ?mmenten.fx
-mm.nls<-nls(atot~mmenten.fx(x=dap,a=b0,b=b1),
-  data = df,start = list(b0 = 170, b1=0.5),trace=T)
+mm.nls<-nls(atot~mmenten.fx(x=dap,alpha,beta),
+  data = df,start = list(alpha = 170, beta=0.5),trace=T)
     
 
 summary(mm.nls)
@@ -78,8 +78,8 @@ df$h.mm<-fitted(mm.nls)
 ##- ahora ocupando una expresion ya definida en el paquete biometrics
 ## revisar la expresion matematica con
 ##> ?stage.fx
-sta.nls<-nls(atot~stage.fx(x=dap,a=b0,b=b1,c=b2),
-            data = df,start = list(b0 = 20, b1=8,b2=.8),trace=T)
+sta.nls<-nls(atot~stage.fx(x=dap,alpha,beta,gamma),
+        data=df,start=list(alpha = 20,beta=8,gamma=.8),trace=T)
 
 summary(sta.nls)
 coef(sta.nls)
@@ -99,8 +99,8 @@ df$h.sta<-fitted(sta.nls)
 ##- ahora ocupando una expresion ya definida en el paquete biometrics
 ## revisar la expresion matematica con
 ##> ?power.fx
-pod.nls<-nls(atot~power.fx(x=dap,a=b0,b=b1),
-            data = df,start = list(b0 = 10, b1=.5),trace=T)
+pod.nls<-nls(atot~power.fx(x=dap,alpha,beta),
+            data = df,start = list(alpha = 10, beta=.5),trace=T)
 
 summary(pod.nls)
 coef(pod.nls)
@@ -141,9 +141,10 @@ legend("bottomright",c("Michaelis-Menten","Stage","Poder"), title="Modelo",
 
 ##+ Capacidades predictivas
 ##- Calcule el RMSD, DIFA, y DA de los tres modelos.
-valesta(y.obs = df$atot, y.pred = df$h.mm)
-valesta(y.obs = df$atot, y.pred = df$h.sta)
-valesta(y.obs = df$atot, y.pred = df$h.pod)
+predstat(obs = df$atot, pre = df$h.mm,want.percent = T)
+predstat(obs = df$atot, pre = df$h.sta,want.percent = T)
+predstat(obs = df$atot, pre = df$h.pod,want.percent = T)
+
 
 ##- En caso que necesite tambien los estadisticos en
 ##- terminos porcentuales, tan solo debe agregar a la

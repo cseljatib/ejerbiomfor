@@ -2,15 +2,16 @@
 ##- Sobre:  Ajuste modelo no-lineal de altura-diametro           /
 ##+ Detalles:  Emplea estimador de minimos cuadrados no-lineales/
 ##* Ejemplo: Datos de altura-diametro (data= idahohd2).        /
-##? Mas detalles: Modelo de poder                             /
-##   + calcula valores predichos.                            /
-##   + realiza grafico de comportamiento.                   /
-##! -------------------------------------------------------/ 
-##                                                        /
-##> Profesor: Christian Salas Eljatib                    /
-##? E-mail: christian.salas AT uchile DOT cl            /
-## Web: https://eljatib.com                            /
-##!===================================================/
+## Mas detalles:                                              /
+##>  + Modelo de Poder.                                      /
+##   + calcula valores predichos.                           /
+##   + realiza grafico de comportamiento.                  /
+##! ------------------------------------------------------/ 
+##                                                       /
+##> Profesor: Christian Salas Eljatib                   /
+##? E-mail: christian.salas AT uchile DOT cl           /
+## Web: https://eljatib.com                           /
+##!==================================================/
 
 
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -46,12 +47,12 @@ hist(df$dap)
 plot(atot ~ dap, data=df)
 
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-##+## III. Ajuste del modelo
+##+## III. Ajuste de un modelo no-lineal
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-#Ajuste del modelo de poder
-poder.nls <- nls(atot~  b0*dap^(b1), 
+#Modelo de poder
+poder.nls <- nls(atot~  b1*dap^(b2), 
               data = df,
-              start = list(b0 = 7, b1=0.5),trace=T)
+              start = list(b1 = 7, b2=0.5),trace=T)
 
 summary(poder.nls)
 coef(poder.nls)

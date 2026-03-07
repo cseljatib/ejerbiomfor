@@ -50,9 +50,9 @@ plot(atot ~ dap, data=df)
 ##+## III. Ajuste del modelo
 ##!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##+ (1) Ajuste del modelo de Michaelis-Menten
-mm.nls <- nls(atot~(b0*dap)/(b1+dap), 
+mm.nls <- nls(atot~(b1*dap)/(b0+dap), 
   data = df,
-start = list(b0 = 170, b1=0.5),trace=T)
+start = list(b0=0.5,b1= 170),trace=T)
 
 summary(mm.nls)
 coef(mm.nls)
@@ -71,9 +71,9 @@ df$h.mm<-fitted(mm.nls)
 
 ##+ (2) Ajuste del modelo de Stage
 sta.nls <- nls(atot~
-                b0*exp(-b1/(dap^b2)), 
+                b1*exp(-b2/(dap^b3)), 
               data = df,
-              start = list(b0 = 20, b1=8,b2=.8),trace=T)
+              start = list(b1 = 20, b2=8,b3=.8),trace=T)
 
 summary(sta.nls)
 coef(sta.nls)
@@ -95,16 +95,17 @@ df$h.sta<-fitted(sta.nls)
 #
 ##-Guardando los coeficientes en un objeto
 ##+ (1) Modelo Michaelis-Menten
+coef(mm.nls)
 b0.hat.mm<-coef(mm.nls)[1]
 b1.hat.mm<-coef(mm.nls)[2]
 b0.hat.mm
 b1.hat.mm
 
 ##+ (2) Modelo Stage
-b0.hat.sta<-coef(sta.nls)[1]
-b1.hat.sta<-coef(sta.nls)[2]
-b2.hat.sta<-coef(sta.nls)[3]
-c(b0.hat.sta,b1.hat.sta,b2.hat.sta)
+b1.hat.sta<-coef(sta.nls)[1]
+b2.hat.sta<-coef(sta.nls)[2]
+b3.hat.sta<-coef(sta.nls)[3]
+c(b1.hat.sta,b2.hat.sta,b3.hat.sta)
 
 
 ##-Valores esperados segun cada modelo
