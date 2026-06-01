@@ -93,7 +93,7 @@ Parcela <- row.names(tab.out)
 Parcela
 tab.out<-cbind(Parcela,varest.ppar)
 tab.out
-descstat(tab.out[,c("N","G","Dg")],3)
+descstat(data=tab.out,y=c("N","G","Dg"),decnum = 3)
 
 #guardando las medias de las variables de estado de rodal
 nha.med <- mean(tab.out$N);nha.med;
@@ -128,7 +128,8 @@ trodal
 sum(trodal)
 #....con
 nha.med
-descstat(tab.out[,2:3],3)
+
+descstat(data=tab.out,y=c("N","G","Dg"),decnum = 3)
 
 nha.cd<-trodal
 #==============================
@@ -147,14 +148,14 @@ gha.cd
 sum(gha.cd)
 #....con
 gha.med
-descstat(tab.out[,2:3],3)
 
+descstat(data=tab.out,y=c("N","G","Dg"),decnum = 3)
 
 #==============================
 #5) Ajuste modelo altura-diametro
 #==============================
 #datos...
-descstat(df[,c("dap","atot")])
+descstat(data=df,y=c("dap","atot"),decnum = 3)
 #5a) Ajuste de modelo de altura
 #solo arboles con registro de altura
 df1 <- na.omit(df)
@@ -237,7 +238,10 @@ Hm<-hmed.ppar;V<-vha.ppar
 tab.out2<-cbind(tab.out,Hm,V)
 tab.out2
 
-descstat(tab.out2[,2:ncol(tab.out2)])
+descstat(data=df,y=c("dap","atot"),decnum = 3)
+
+descstat(data=tab.out2,y=c("N","G","Dg"),decnum = 3)
+
 
 #guardando la media de la altura para el muestreo
 h.med <- mean(tab.out2$Hm)

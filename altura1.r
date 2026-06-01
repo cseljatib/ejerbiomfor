@@ -1,24 +1,23 @@
-##!╔═══════════════════════════════════════════════════════════════╗
-##*║ Script: "altura1.r"                                           ║
-##+║ Sobre:  Ajuste modelo de regresion lineal simple (RLS)        ║
-##-║ Detalles:  Emplea estimador de minimos cuadrados.             ║
-##-║ Mas detalles: Entre otras cosas, en este ejercicio se:        ║
-## ║+ calculan valores ajustados y residuales.                     ║
-## ║+ representa sigma.hat.e en porcentaje.                        ║
-## ║+ crea grafico con valores esperados vs diametro para          ║
-## ║el modelo.                                                     ║
-##*║ Ejemplo: Datos de altura-diametro (idahohd2).                 ║
-##-║---------------------------------------------------------------║
-## ║                                                               ║
-##>║ Profesor: Christian Salas Eljatib                             ║
-##+║ E-mail: christian.salas AT uchile DOT cl                      ║
-##*║ Web: https://eljatib.com                                      ║
-##!╚═══════════════════════════════════════════════════════════════╝
+##! Script: "altura1.r"                                           /
+##- Sobre:  Ajuste modelo de regresion lineal simple (RLS)       /
+##+ Detalles:  Emplea estimador de minimos cuadrados.           /
+##* Ejemplo: Datos de altura-diametro (data=idahohd2).         /
+##? Mas detalles: Entre otras cosas, en este ejercicio se:    / 
+## + calculan valores ajustados y residuales.                /
+## + representa sigma.hat.e en porcentaje.                  /
+## + crea grafico con valores esperados vs diametro para   /
+## el modelo.                                             /
+##! -----------------------------------------------------/ 
+##                                                      /
+##> Profesor: Christian Salas Eljatib                  /
+##? E-mail: christian.salas AT uchile DOT cl          /
+## Web: https://eljatib.com                          /
+##!=================================================/
 
 
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! I. Datos
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 library(datana)
 data(idahohd2)
 df <- idahohd2
@@ -35,15 +34,12 @@ str(df)
 
 ##-Cuadro de estadistica descriptiva para dos variables
 ## usando una funcion especifica
-df1<- df[,c("dap","atot")]
-head(df1)
-descstat(df1)
-head(df)
+descstat(df, y=c("dap","atot"))
 
 
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! II. Graficos de interes
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##-Distribucion
 hist(df$atot)
 hist(df$dap)
@@ -60,9 +56,9 @@ plot(atot~dap, data=df, xlab="Diametro (cm)",
 
 plot(atot~dap, data=df)
 
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! III. Ajuste del modelo
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##- Ajuste de modelo de regresion lineal simple
 ##  h_i=beta_0+beta_1(d_i)+varepsilon_i
 mod1<- lm(atot~dap, data=df)
@@ -115,20 +111,20 @@ head(df)
 df$e.aju <- df$atot - df$aju 
 head(df)
 
-##- ---------------
-##? Otra forma de obtener lo mismo anterior
+##+ ---------------
+##+ Otra forma de obtener lo mismo anterior
 df$h.aju1 <- fitted(mod1)
 df$e.aju1 <- residuals(mod1)
 
 
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! V. Grafico de comportamiento
-##+================================================
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
-##--------
-## Grafico de comportamiento del modelo
-##* es decir, valor esperado para la variable respuesta
+##? ======================================
+##- Grafico de comportamiento del modelo
+##+ es decir, valor esperado para la variable respuesta
 ##i. alternativa con funcion pre-programada en R
 plot(atot~dap, data=df, xlab="Diametro (cm)", ylab="Altura (m)")
 abline(mod1)
@@ -149,15 +145,16 @@ h.mod1 <- b0.hat + b1.hat * (d.ast)
 plot(atot~dap, data=df)
 lines(d.ast, h.mod1, col="red")
 
-##!══════════════════════════════════════════════════════════════════╗
-##+ Tarea (para seguir ejercitando/estudiando)                       ║
-##!══════════════════════════════════════════════════════════════════╝
+
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+##! Para seguir ejercitando/estudiando:
 ##- 1. Escriba (en una hoja) los parametros estimados del modelo ajustado.
 ##- 2. Revise la inferencia estadistica respecto a los coeficientes
 ## estimados.
+##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-##>╔═════════════════╗
-##>║ Fin del script! ║
-##>║ Atte.           ║
-##>║ El profesor     ║
-##>╚═════════════════╝
+#>╔═════════════════╗
+#>║ Fin del script! ║
+#>║ Atte.           ║
+#>║ El profesor     ║
+#>╚═════════════════╝
