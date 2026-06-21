@@ -57,6 +57,14 @@ plot(atot~dap, data=df)
 df$ln.h <- log(df$atot)
 df$ln.d <- log(df$dap)
 head(df)
+plot(ln.h~ln.d, data=df, xlab="ln(d)",
+     ylab="ln(h)", las=1, col="blue")
+
+mod0<- lm(atot~dap, data=df)
+summary(mod0)
+rmse.m0<-summary(mod0)$sigma
+rmse.m0
+
 mod1<- lm(ln.h~ln.d, data=df)
 summary(mod1)
 ##-RMSE
@@ -102,6 +110,11 @@ df$h.aju1 <- exp(fitted(mod1))
 ## la variable respuesta-biometrica, i.e., la altura
 predstat(obs = df$atot, pre = df$h.aju1, decnum = 3)
 
+predstat(obs = df$atot, pre = df$h.aju1, decnum = 3, want.percent = TRUE)
+
+df$h.aju0 <- fitted(mod0)
+predstat(obs = df$atot, pre = df$h.aju0, decnum = 3, want.percent = TRUE)
+
 ##- el grafico de comportamiento
 50:55 #secuencia de valores
 exp(b0.hat + b1.hat * log(50:55))
@@ -142,6 +155,7 @@ head(df)
 ###estadistico de validacion
 predstat(obs = df$atot, pre = df$h.aju2, decnum = 3)
 
+predstat(obs = df$atot, pre = df$h.aju1, decnum = 3)
 
 ##* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ##! IVa. Grafico de comportamiento
