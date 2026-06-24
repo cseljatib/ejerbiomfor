@@ -67,6 +67,7 @@ range(df$dap)
 diff(range(df$dap))/2
 w.amp <- 2
 #ii. asignacion de clase diametrica a cada arbol
+library(datana)
 df<-assigncl(data=df,variable = "dap",wclass = w.amp,name.class = "clase.d")
 unique(df$clase.d)
 sort(unique(df$clase.d))
