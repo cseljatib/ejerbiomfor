@@ -31,9 +31,9 @@ df<-eucaplotr2
 head(df)
 
 library(datana)
-#note que ahora
-descstat(df[,c("dap","atot")])
-#no todos los arboles tienen medicion de altura
+# note que ahora
+descstat(df[, c("dap", "atot")])
+# no todos los arboles tienen medicion de altura (n distinto en dap y atot)
 
 df
 

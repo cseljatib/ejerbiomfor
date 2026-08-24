@@ -51,7 +51,8 @@ dg
 ##diametro dominante
 dap.orden <- df[ order(-df$dap), "dap"]
 dap.orden
-ddom <- mean(dap.orden[1:5])
+## se seleccionan 5 en 500 m2 (500 * 100 / 10000)
+ddom <- mean(dap.orden[1:5]) 
 ddom
 
 ##diametro del arbol de area basal central
