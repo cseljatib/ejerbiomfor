@@ -99,7 +99,7 @@ tab.out<-cbind(Parcela,varest.ppar)
 tab.out
 
 library(datana)
-descstat(tab.out[,c("N","G","Dg")],3)
+descstat(tab.out[,c("N","G","Dg")])
 
 
 #==============================
