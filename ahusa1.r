@@ -67,6 +67,10 @@ largo.sec
 vol = ((pi/40000)/2) * (dinf^2 + dsup^2) * largo.sec
 vol
 
+## compare el resultado con el de
+volume(d = c(dinf, dsup), l = largo.sec)
+
+
 #####
 #grafico de ahusamiento
 hl <- seq(0.3,h,by=0.01)
