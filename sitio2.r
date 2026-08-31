@@ -95,6 +95,29 @@ plot(h.is25~t.fake,type="l", xlab="Edad (años)", ylab="Altura (m)",las=1)
 lines(h.is22~t.fake,col="red")
 abline(v=20,lty=2)
 
+## mas curvas de indice de sitio
+edad <- seq(4, 34, 2)
+is10 <- exp(log(10) + b1.hat.schu * ((1 / edad) - (1 / tb)))
+is15 <- exp(log(15) + b1.hat.schu * ((1 / edad) - (1 / tb)))
+is20 <- exp(log(20) + b1.hat.schu * ((1 / edad) - (1 / tb)))
+is25 <- exp(log(25) + b1.hat.schu * ((1 / edad) - (1 / tb)))
+is30 <- exp(log(30) + b1.hat.schu * ((1 / edad) - (1 / tb)))
+
+tabla.is <- cbind(edad, is10, is15, is20, is25, is30)
+tabla.is
+
+plot(is30 ~ edad, type = "l", xlab = "Edad (años)", ylab = "Altura (m)", las = 1, col = "cyan", lty = 2, xlim = c(0, max(edad)), ylim = (c(0, max(is30) + 5)))
+lines(is25 ~ edad, col = "blue", lty = 2)
+lines(is20 ~ edad, col = "green", lty = 2)
+lines(is15 ~ edad, col = "red", lty = 2)
+lines(is10 ~ edad, col = "black", lty = 1)
+abline(v = 20, lty = 2)
+legend("topleft",
+        legend = c("IS10", "IS15", "IS20", "IS25", "IS30"),
+       col = c("black", "red", "green", "blue", "cyan"),
+       lty = c(1, 2, 2, 2, 2), lwd = 2
+)
+
 #╔═════════════════╗
 #║ Fin del script! ║
 #║ Atte.           ║
