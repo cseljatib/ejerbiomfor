@@ -64,7 +64,7 @@ largo.sec<- hl.s - hl.i
 largo.sec
 
 #volumen de la troza, usando formula de Smalian
-vol = ((pi/40000)/2) * (dinf^2 + dsup^2) * largo.sec
+vol <- ((pi/40000)/2) * (dinf^2 + dsup^2) * largo.sec
 vol
 
 ## compare el resultado con el de
