@@ -1,16 +1,16 @@
-##! Script: "ahusa1.r"                                         /
-##- Sobre:  Modelos de ahusamiento                            /
-##+ Detalles:  Utilidad de un modelo de ahusamiento.         /
+## ! Script: "ahusa1.r"                                         /
+## - Sobre:  Modelos de ahusamiento                            /
+## + Detalles:  Utilidad de un modelo de ahusamiento.         /
 ##* Ejemplo: predecir diametros fustales                    /
-##? Mas detalles: se grafica el ahusamiento segun un modelo/
+## ? Mas detalles: se grafica el ahusamiento segun un modelo/
 ## dado                                                   /
-##! -----------------------------------------------------/ 
+## ! -----------------------------------------------------/
 ##                                                      /
-##> Profesor: Christian Salas Eljatib                  /
+## > Profesor: Christian Salas Eljatib                  /
 ## E-mail: christian.salas AT uchile DOT cl           /
 ## Web: https://eljatib.com                          /
-##!=================================================/
-
+## !=================================================/
+library(biometrics)
 ###uso de un modelo de ahusamiento
 b0 <- -0.0482
 b1 <- 0.72126
