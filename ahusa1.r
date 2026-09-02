@@ -86,7 +86,31 @@ y <- exp(ln.y)
 dl <- y*d
 dl
 
-plot(dl ~ hl, type="l", las=1)
+plot(dl ~ hl, type = "l", las = 1)
+
+## ejercicio: calcule el volumen de una troza con largo igual a
+## la mitad de la troza ya calculada, desde el diametro
+## inferior.
+
+##el volumen de la troza original es
+vol
+
+## se calcula nuevo diametro fustal
+hl <- (largo.sec / 2) + hst # usando la mitad del largo de la troza
+hl # nueva altura fustal
+x1 <- log((h-hl)/(h-1.3))
+x1
+x2 <- x1^2
+x2
+# se usa el modelo para predecir el diametro fustal
+ln.y <- b0 + b1*x1 + b2*x2
+y <- exp(ln.y)
+dl.sup <- y*d
+dl.sup
+
+# nuevo volumen
+volume(d = c(dinf, dl.pred), h = c(hst, 2.1))
+
 #+╔═════════════════╗
 #+║ Fin del script! ║
 #+║ Atte.           ║
