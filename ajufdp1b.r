@@ -28,13 +28,16 @@ str(df)
 descstat(df[,"dap"])
 num.arbs<-nrow(df)
 
-##- Densidad del rodal
+##+ crear una columna con la superficie de la parcela, en metros cuadrados
 sup.plot<-130*70  #en m2
 sup.plot
 sup.plot.ha<-sup.plot/10000 #en hectareas
 sup.plot.ha
-fe<-10000/sup.plot
-nha<-nrow(df)*fe
+df$sup.plot<-sup.plot
+df$fe<-10000/df$sup.plot
+
+##- Densidad del rodal
+nha<-sum(df$fe)
 nha
 
 #-- Declarando la variable aleatoria de interes
@@ -86,14 +89,14 @@ beta.mle<-param.wei.mle[2]
 ##(1) primero construir tabla de rodal, para mismos intervalos
 ##anteriores
 
+head(df)
 ##+ amplitud de la clase diametrica a utilizar
 amp.diam <- 5
-##+ crear una columna con la superficie de la parcela, en metros cuadrados
-sup.plot
-df$sup.plot<-sup.plot
+
 head(df)
 
 ##iii. Creando la tabla rodal
+#?standtab
 trod<-standtab(data=df,plot.area = "sup.plot",y.for.class = "dap",
                yclass.amp=amp.diam)
 trod
@@ -101,7 +104,7 @@ trod
 ##? verificando que la suma de la densidad por clase diametrica es
 ##igual a la densidad total del rodal
 nha
-sum(trod$nha.class)
+sum(trod$nha.cl)
 
 
 
@@ -110,7 +113,7 @@ sum(trod$nha.class)
 ##- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ## (a) generando una tabla de rodal
 cdap<-trod$dap.class
-nha.cd<-trod$nha.class
+nha.cd<-trod$nha.cl
 lim.inf <- cdap-(amp.diam/2);lim.inf
 lim.sup <- cdap+(amp.diam/2);lim.sup
 cbind(lim.inf,lim.sup)

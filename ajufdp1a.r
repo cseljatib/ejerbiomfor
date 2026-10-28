@@ -45,7 +45,8 @@ pweibull(10,shape=1.6,scale=4)
 library(datana)
 head(llancahue2)
 #Activar siguiente linea para ver metadata
-#?llancahue
+#?llancahue2
+
 df <- llancahue2
 dim(df)
 str(df)
@@ -53,14 +54,18 @@ str(df)
 descstat(df[,"dap"])
 num.arbs<-nrow(df)
 
-##- Densidad del rodal
+##+ crear una columna con la superficie de la parcela, en metros cuadrados
 sup.plot<-130*70  #en m2
 sup.plot
 sup.plot.ha<-sup.plot/10000 #en hectareas
 sup.plot.ha
-fexp<-10000/sup.plot
-nha<-nrow(df)*fexp
+df$sup.plot<-sup.plot
+df$fe<-10000/df$sup.plot
+
+##- Densidad del rodal
+nha<-sum(df$fe)
 nha
+
 
 #-- Declarando la variable aleatoria de interes
 df$y <- df$dap #la variable aleatoria
